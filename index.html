@@ -1,0 +1,943 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Создание сайтов для вашего бизнеса - автомойки, салоны, цветочные магазины</title>
+<meta name="description" content="Сайты для местного бизнеса под ключ от 15 000 ₽: цены, онлайн-запись, заявки в WhatsApp и Telegram. Автомойки, автосервисы, цветочные магазины, маникюрные и массажные салоны, салоны красоты.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600&family=Inter:wght@400;500;600&family=Golos+Text:wght@400;500;600&family=Russo+One&family=Yeseva+One&family=Comfortaa:wght@500;700&family=Forum&family=Prata&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #141414;
+    --white: #FFFFFF;
+    --card: #F2F2F2;
+    --mute: #6B6B6B;
+    --line: #E2E2E2;
+    --tg: #0088CC;
+    --tg-deep: #0077B5;
+    --focus: #0A66FF;
+    --display: "Inter Tight", "Inter", system-ui, sans-serif;
+    --text: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --s: 1;
+    --pw: calc(300px * var(--s));
+    --ph: calc(614px * var(--s));
+    --pin-top: 76px;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0; background: var(--white); color: var(--ink);
+    font: 400 17px/1.5 var(--text); -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, p { margin: 0; }
+  h1, h2, h3 { font-family: var(--display); font-weight: 600; letter-spacing: -0.035em; text-wrap: balance; }
+  h1 { font-size: clamp(2.3rem, 5.2vw, 4.25rem); line-height: 1.02; }
+  h2 { font-size: clamp(1.7rem, 2.7vw, 2.45rem); line-height: 1.06; }
+  h3 { font-size: 1.1rem; line-height: 1.25; letter-spacing: -0.02em; }
+  a { color: inherit; }
+  :focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; border-radius: 6px; }
+  .wrap { width: min(1180px, 100% - 40px); margin-inline: auto; }
+
+  /* Кнопки */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+    min-height: 50px; padding: 0 22px; border-radius: 14px; border: 0;
+    font: 500 1rem/1 var(--text); text-decoration: none; white-space: nowrap; cursor: pointer;
+    transition: background-color .15s ease, transform .15s ease;
+  }
+  .btn svg { width: 19px; height: 19px; flex: none; }
+  .btn:active { transform: scale(.98); }
+  .btn-tg { background: var(--tg); color: #FFFFFF; }
+  .btn-tg:hover { background: var(--tg-deep); }
+  .btn-plain { background: var(--card); color: var(--ink); }
+  .btn-plain:hover { background: #E8E8E8; }
+
+  /* Плавающее меню */
+  .nav {
+    position: sticky; top: 12px; z-index: 50;
+    width: min(460px, 100% - 24px); margin: 12px auto 0;
+    display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    padding: 6px 6px 6px 16px; border-radius: 14px;
+    background: rgba(150, 150, 150, .72); color: #FFFFFF;
+    backdrop-filter: blur(14px) saturate(1.2); -webkit-backdrop-filter: blur(14px) saturate(1.2);
+  }
+  .nav-brand { font: 600 .98rem/1 var(--display); letter-spacing: -0.01em; text-decoration: none; }
+  .nav-links { display: flex; align-items: center; gap: 4px; }
+  .nav-link { padding: 9px 10px; border-radius: 9px; font-size: .9rem; font-weight: 500; text-decoration: none; }
+  .nav-link:hover { background: rgba(255,255,255,.18); }
+  .nav .btn { min-height: 36px; padding: 0 13px; border-radius: 10px; font-size: .9rem; gap: 7px; }
+  .nav .btn svg { width: 16px; height: 16px; }
+
+  /* Первый экран */
+  .hero { padding: clamp(14px, 1.6vw, 22px) 0 clamp(22px, 2.4vw, 30px); text-align: center; }
+  .hero h1 { max-width: 17ch; margin-inline: auto; font-size: clamp(2.1rem, 4vw, 3.3rem); }
+  .hero p { margin: 14px auto 0; max-width: 62ch; color: var(--mute); font-size: 1.02rem; }
+  .hero-actions { margin-top: 20px; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+
+  /* Телефон */
+  .phone-fit { --k: var(--s); position: relative; flex: none; width: calc(300px * var(--k)); height: calc(614px * var(--k)); }
+  .phone-fit.near { --k: calc(var(--s) * .8); margin-top: calc(44px * var(--s)); }
+  .phone-fit.far { --k: calc(var(--s) * .66); margin-top: calc(92px * var(--s)); }
+  .phone {
+    position: absolute; left: 0; top: 0; width: 300px; height: 614px;
+    transform: scale(var(--k)); transform-origin: 0 0;
+    border-radius: 48px; padding: 4px;
+    background: linear-gradient(145deg, #FAFAFB 0%, #C9CACF 22%, #EDEDEF 50%, #BFC0C6 80%, #F4F4F6 100%);
+    box-shadow:
+      inset 0 0 0 1px rgba(255,255,255,.7),
+      0 0 0 1px rgba(0,0,0,.10),
+      0 10px 20px -8px rgba(0,0,0,.18),
+      0 40px 70px -24px rgba(0,0,0,.38),
+      26px 46px 80px -34px rgba(0,0,0,.34);
+  }
+  .phone-bezel { width: 100%; height: 100%; border-radius: 44px; padding: 9px; background: #0B0B0D; }
+  .phone-key { position: absolute; width: 4px; border-radius: 2px; background: linear-gradient(90deg, #A9AAB0, #DCDDE0); }
+  .phone-key.mute { left: -3px; top: 104px; height: 26px; }
+  .phone-key.vol-up { left: -3px; top: 148px; height: 48px; }
+  .phone-key.vol-down { left: -3px; top: 206px; height: 48px; }
+  .phone-key.power { right: -3px; top: 168px; height: 76px; background: linear-gradient(90deg, #DCDDE0, #A9AAB0); }
+  .phone-island {
+    position: absolute; top: 24px; left: 50%; width: 88px; height: 26px; margin-left: -44px;
+    background: #000; border-radius: 14px; z-index: 6;
+  }
+  .phone-island::after {
+    content: ""; position: absolute; right: 14px; top: 8px; width: 10px; height: 10px; border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #3A4A6B 0 25%, #11151F 60%);
+  }
+  .screen { position: relative; width: 100%; height: 100%; overflow: hidden; border-radius: 36px; background: var(--white); }
+
+  /* Mock site inside the phone */
+  .mock {
+    position: absolute; inset: 0;
+    background: var(--m-bg); color: var(--m-fg); font-family: var(--m-text);
+    font-size: 12px; line-height: 1.4;
+    transition: opacity .25s ease;
+  }
+  .mock.is-leaving { opacity: 0; }
+  /* Строка состояния телефона */
+  .mock-status {
+    position: absolute; top: 0; left: 0; right: 0; height: 48px; z-index: 4;
+    display: flex; align-items: center; justify-content: space-between; padding: 4px 24px 0 30px;
+    background: var(--m-bg);
+    font: 600 13px/1 -apple-system, "SF Pro Text", "Segoe UI", system-ui, sans-serif; letter-spacing: -.01em;
+  }
+  .mock-status-icons { display: flex; align-items: center; gap: 5px; }
+  .mock-status svg { display: block; fill: currentColor; }
+  /* Страница сайта, которая «прокручивается» под строками браузера */
+  .mock-page {
+    position: absolute; top: 48px; left: 0; right: 0; bottom: 0;
+    padding: 6px 16px 80px; overflow: hidden;
+  }
+  /* Адресная строка браузера снизу, как в мобильном Safari */
+  .mock-addr {
+    position: absolute; left: 0; right: 0; bottom: 0; z-index: 4;
+    padding: 8px 12px 20px;
+    background: color-mix(in srgb, var(--m-bg) 82%, transparent);
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    border-top: 1px solid var(--m-line);
+  }
+  .mock-url {
+    display: flex; align-items: center; justify-content: center; gap: 5px;
+    height: 32px; border-radius: 11px; background: color-mix(in srgb, var(--m-fg) 10%, transparent);
+    font: 500 12.5px/1 -apple-system, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
+  }
+  .mock-url svg { width: 10px; height: 10px; fill: currentColor; opacity: .7; }
+  .mock-home {
+    position: absolute; left: 50%; bottom: 7px; width: 96px; height: 4px; margin-left: -48px;
+    border-radius: 2px; background: currentColor; opacity: .85;
+  }
+  .mock-bar { display: flex; justify-content: space-between; align-items: center; font-size: 11px; opacity: .85; }
+  .mock-bar i { display: block; width: 18px; height: 2px; background: currentColor; box-shadow: 0 5px 0 currentColor, 0 -5px 0 currentColor; }
+  .mock-hero {
+    margin-top: 14px; border-radius: var(--m-radius); padding: 18px 16px 16px;
+    background-color: var(--m-panel); background-size: cover; background-position: center; color: #FFFFFF;
+    min-height: 172px; display: flex; flex-direction: column; justify-content: flex-end;
+    position: relative; overflow: hidden;
+  }
+  .mock-hero::before {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,.78) 0%, rgba(0,0,0,.35) 55%, rgba(0,0,0,.05) 100%);
+  }
+  .mock-hero .mock-tag { text-shadow: 0 1px 2px rgba(0,0,0,.4); }
+  .mock-hero > * { position: relative; }
+  .mock-name { font: var(--m-display); line-height: 1.05; }
+  .mock-tag { margin-top: 6px; font-size: 11.5px; opacity: .9; }
+  .mock-btn {
+    margin-top: 12px; align-self: flex-start; padding: 9px 14px; border-radius: var(--m-btn-radius);
+    background: var(--m-accent); color: var(--m-accent-fg); font-weight: 700; font-size: 11.5px;
+  }
+  .mock-list { margin-top: 14px; display: grid; gap: 0; }
+  .mock-row {
+    display: flex; justify-content: space-between; gap: 10px; padding: 9px 2px;
+    border-bottom: 1px solid var(--m-line);
+  }
+  .mock-row b { font-weight: 700; white-space: nowrap; }
+  .mock-gallery-title { margin-top: 14px; font-weight: 700; font-size: 11.5px; }
+  .mock-gallery { margin-top: 8px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+  .mock-gallery img {
+    width: 100%; aspect-ratio: 1; object-fit: cover; display: block;
+    border-radius: calc(var(--m-radius) / 2); background: var(--m-panel);
+  }
+  .mock-foot { padding-top: 12px; display: flex; gap: 6px; }
+  .mock-foot span {
+    flex: 1; text-align: center; padding: 9px 4px; border-radius: var(--m-btn-radius);
+    border: 1px solid var(--m-line); font-size: 10.5px; font-weight: 600;
+  }
+
+  /* Смена экрана: новый сайт выезжает поверх старого */
+  .mock { transition: transform .6s cubic-bezier(.22, .8, .22, 1); will-change: transform; }
+  .mock.from-below { transform: translateY(100%); }
+  .mock.from-above { transform: translateY(-100%); }
+
+  /* Путь: ряд телефонов, потом закреплённый телефон и карточки ниш */
+  .journey { position: relative; padding-bottom: clamp(56px, 8vw, 104px); }
+  .pin {
+    position: sticky; top: var(--pin-top); z-index: 5;
+    height: var(--ph);
+    display: flex; justify-content: center; pointer-events: none;
+  }
+  .lineup {
+    display: flex; justify-content: center; align-items: flex-start;
+    gap: clamp(18px, 3vw, 44px); min-height: var(--ph); margin-top: calc(-1 * var(--ph)); overflow-x: clip;
+  }
+  .lineup .slot { flex: none; width: var(--pw); }
+  .chapters { display: grid; gap: 24px; margin-top: clamp(64px, 9vw, 120px); }
+  .chapter {
+    display: grid; grid-template-columns: minmax(0, 1fr) var(--pw) minmax(0, 1fr);
+    gap: clamp(16px, 2.4vw, 32px); min-height: var(--ph);
+  }
+  .card {
+    background: var(--card); border-radius: 28px; padding: clamp(24px, 3.2vw, 46px);
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .card-lead { grid-column: 1; }
+  .card-lead p { margin-top: 16px; color: var(--mute); max-width: 38ch; }
+  .card-points { grid-column: 3; gap: 30px; }
+  .card-points p { margin-top: 6px; color: var(--mute); font-size: .96rem; max-width: 36ch; }
+  .chapter-phone { display: none; }
+
+  /* Объём: тень-пятно на «полу» под каждым телефоном */
+  .phone-fit { isolation: isolate; }
+  .phone-fit::after {
+    content: ""; position: absolute; z-index: -1;
+    left: 4%; right: 4%; bottom: calc(-34px * var(--k)); height: calc(64px * var(--k));
+    background: radial-gradient(ellipse at center, rgba(0,0,0,.42) 0%, rgba(0,0,0,.18) 42%, transparent 70%);
+    filter: blur(calc(12px * var(--k)));
+  }
+
+  /* Динамика первого экрана: телефоны поднимаются по очереди, боковые плавно парят
+     и при прокрутке уходят вверх с разной скоростью */
+  @keyframes rise { from { opacity: 0; transform: translateY(90px); } }
+  @keyframes float { from { translate: 0 0; } to { translate: 0 -14px; } }
+  @keyframes shade { from { opacity: 1; scale: 1; } to { opacity: .72; scale: .93; } }
+  .pin .phone-fit { animation: rise .9s cubic-bezier(.2, .8, .2, 1) backwards; }
+  .lineup .phone-fit {
+    --rate: -.1;
+    transform: translateY(calc(var(--scroll, 0) * var(--rate) * 1px));
+    animation: rise .9s cubic-bezier(.2, .8, .2, 1) backwards, float 5.5s ease-in-out infinite alternate;
+  }
+  .lineup .phone-fit::after { animation: shade 5.5s ease-in-out infinite alternate; }
+  .lineup .phone-fit.far { --rate: -.22; }
+  .lineup .phone-fit:nth-child(1) { animation-delay: .32s, -1.2s; }
+  .lineup .phone-fit:nth-child(2) { animation-delay: .16s, -3.4s; }
+  .lineup .phone-fit:nth-child(4) { animation-delay: .16s, -.4s; }
+  .lineup .phone-fit:nth-child(5) { animation-delay: .32s, -2.6s; }
+  .lineup .phone-fit:nth-child(1)::after { animation-delay: -1.2s; }
+  .lineup .phone-fit:nth-child(2)::after { animation-delay: -3.4s; }
+  .lineup .phone-fit:nth-child(4)::after { animation-delay: -.4s; }
+  .lineup .phone-fit:nth-child(5)::after { animation-delay: -2.6s; }
+
+  /* Обычные секции */
+  .section { padding: clamp(56px, 8vw, 104px) 0; }
+  .section-head { text-align: center; margin-bottom: clamp(32px, 4.5vw, 52px); }
+  .section-head p { margin: 14px auto 0; color: var(--mute); max-width: 50ch; }
+
+  .features { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+  .feature { background: var(--card); border-radius: 24px; padding: 28px; }
+  .feature-icon {
+    width: 44px; height: 44px; border-radius: 12px; background: var(--white);
+    display: grid; place-items: center; margin-bottom: 44px;
+  }
+  .feature-icon svg { width: 22px; height: 22px; }
+  .feature p { margin-top: 8px; color: var(--mute); font-size: .96rem; }
+
+  .steps {
+    list-style: none; margin: 0; padding: clamp(10px, 2vw, 22px) clamp(22px, 3.2vw, 46px); counter-reset: step;
+    background: var(--card); border-radius: 28px;
+  }
+  .step {
+    counter-increment: step;
+    display: grid; grid-template-columns: 56px minmax(0, 17ch) minmax(0, 1fr);
+    gap: 6px 28px; align-items: baseline; padding: 24px 0; border-top: 1px solid var(--line);
+  }
+  .step:first-child { border-top: 0; }
+  .step::before { content: counter(step); font: 600 1.5rem/1 var(--display); letter-spacing: -0.03em; color: #A3A3A3; }
+  .step p { color: var(--mute); max-width: 58ch; }
+
+  .price-wrap { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: 16px; }
+  .price-wrap .card { justify-content: flex-start; }
+  .price-wrap .price-intro { justify-content: space-between; gap: 40px; }
+  .price-intro p { margin-top: 16px; color: var(--mute); max-width: 36ch; }
+  .price-intro .btn { align-self: flex-start; }
+  .price { padding: 24px 0; border-top: 1px solid var(--line); }
+  .price:first-child { border-top: 0; padding-top: 0; }
+  .price:last-child { padding-bottom: 0; }
+  .price-line { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }
+  .price-line b { font: 600 1.1rem/1.25 var(--display); letter-spacing: -0.02em; white-space: nowrap; }
+  .price p { margin-top: 8px; color: var(--mute); font-size: .96rem; max-width: 52ch; }
+
+  .faq { max-width: 760px; margin-inline: auto; }
+  .faq details { border-top: 1px solid var(--line); }
+  .faq details:last-child { border-bottom: 1px solid var(--line); }
+  .faq summary {
+    list-style: none; cursor: pointer; padding: 22px 44px 22px 0; position: relative;
+    font: 600 1.08rem/1.3 var(--display); letter-spacing: -0.02em;
+  }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::before, .faq summary::after {
+    content: ""; position: absolute; right: 6px; top: 50%; width: 14px; height: 2px; margin-top: -1px;
+    background: var(--ink); border-radius: 1px; transition: transform .2s ease;
+  }
+  .faq summary::after { transform: rotate(90deg); }
+  .faq details[open] summary::after { transform: rotate(0deg); }
+  .faq details p { padding: 0 0 24px; color: var(--mute); max-width: 62ch; }
+
+  .cta { padding-bottom: 24px; }
+  .cta-card {
+    background: var(--ink); color: var(--white); border-radius: 32px;
+    padding: clamp(32px, 6vw, 80px) clamp(24px, 5vw, 72px); text-align: center;
+  }
+  .cta-card h2 { font-size: clamp(2rem, 4vw, 3.3rem); max-width: 16ch; margin-inline: auto; }
+  .cta-card p { margin: 18px auto 0; color: #A8A8A8; max-width: 50ch; }
+  .cta-actions { margin-top: 32px; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+  .cta-card .btn-plain { background: rgba(255,255,255,.12); color: var(--white); }
+  .cta-card .btn-plain:hover { background: rgba(255,255,255,.2); }
+
+  .foot { color: var(--mute); font-size: .9rem; padding: 8px 0 36px; }
+  .foot .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
+
+  @media (max-width: 900px) {
+    .pin { position: relative; top: auto; }
+    .lineup .far { display: none; }
+    .chapters { gap: 56px; }
+    .chapter { grid-template-columns: minmax(0, 1fr); min-height: 0; gap: 12px; }
+    .card-lead, .card-points { grid-column: auto; }
+    .card-points { order: 3; }
+    .chapter-phone:not(:empty) { display: flex; justify-content: center; padding: 20px 0 28px; order: 2; }
+    .features { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .price-wrap { grid-template-columns: minmax(0, 1fr); }
+  }
+  @media (max-width: 640px) {
+    body { font-size: 16px; }
+    .nav-link { display: none; }
+    .features { grid-template-columns: minmax(0, 1fr); }
+    .feature-icon { margin-bottom: 24px; }
+    .step { grid-template-columns: 36px minmax(0, 1fr); }
+    .step p { grid-column: 2; }
+    .hero-actions .btn, .cta-actions .btn { width: 100%; }
+    .price-line { flex-direction: column; gap: 4px; }
+    .price-intro .btn { align-self: stretch; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { transition: none !important; animation: none !important; }
+  }
+
+  /* ===== Версия 3: правки по отзывам тестировщиков ===== */
+  .hero p { max-width: 72ch; }
+  .chips { margin: 16px auto 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; max-width: 980px; }
+  .chip {
+    padding: 7px 13px; border-radius: 999px; background: var(--card);
+    font-size: .92rem; font-weight: 500; text-decoration: none; transition: background-color .15s ease;
+  }
+  .chip:hover { background: #E6E6E6; }
+  .hero-note { margin-top: 14px; color: var(--mute); font-size: .92rem; }
+  .btn-wa { background: #E3F6EA; color: #0B5A2C; }
+  .btn-wa svg { color: #1FAF52; }
+  .btn-wa:hover { background: #D2F0DD; }
+  .chapter { scroll-margin-top: var(--pin-top); }
+
+  /* Работы */
+  .cases { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+  .case { background: var(--card); border-radius: 24px; padding: 28px; display: flex; flex-direction: column; gap: 18px; }
+  .case-niche { color: var(--mute); font-size: .9rem; }
+  .case h3 { margin-top: 4px; }
+  .case dl { margin: 0; display: grid; gap: 12px; }
+  .case dt { color: var(--mute); font-size: .85rem; }
+  .case dd { margin: 2px 0 0; font-size: .98rem; }
+  .case dd b { font-family: var(--display); font-weight: 600; letter-spacing: -0.02em; }
+  .case blockquote { margin: auto 0 0; padding-top: 16px; border-top: 1px solid var(--line); font-size: .96rem; }
+  .case blockquote span { display: block; margin-top: 6px; color: var(--mute); font-size: .88rem; }
+
+  /* Обо мне */
+  .about {
+    background: var(--card); border-radius: 28px; padding: clamp(24px, 3.6vw, 48px);
+    display: grid; grid-template-columns: auto minmax(0, 1fr) minmax(0, 1fr); gap: clamp(20px, 3vw, 44px); align-items: center;
+  }
+  .avatar {
+    width: 96px; height: 96px; border-radius: 50%; background: var(--ink); color: var(--white);
+    display: grid; place-items: center; font: 600 1.7rem/1 var(--display); letter-spacing: -0.02em;
+  }
+  .about h2 { font-size: clamp(1.5rem, 2.2vw, 2rem); }
+  .about-text p { margin-top: 12px; color: var(--mute); max-width: 44ch; }
+  .facts { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+  .facts li { padding: 14px 0; border-top: 1px solid var(--line); }
+  .facts li:first-child { border-top: 0; padding-top: 0; }
+  .facts li:last-child { padding-bottom: 0; }
+
+  /* Цены */
+  .terms { list-style: none; margin: 24px 0 0; padding: 0; }
+  .terms li { padding: 12px 0; border-top: 1px solid var(--line); font-size: .98rem; }
+  .terms li:last-child { border-bottom: 1px solid var(--line); }
+  .price-line .price-sub { font-weight: 400; color: var(--mute); font-family: var(--text); font-size: .9rem; letter-spacing: 0; }
+  .price-foot { margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--line); color: var(--mute); font-size: .94rem; }
+
+  @media (max-width: 900px) {
+    .cases { grid-template-columns: minmax(0, 1fr); }
+    .about { grid-template-columns: auto minmax(0, 1fr); }
+    .facts { grid-column: 1 / -1; }
+  }
+  @media (max-width: 640px) {
+    .about { grid-template-columns: minmax(0, 1fr); }
+    .avatar { width: 72px; height: 72px; font-size: 1.3rem; }
+    .chip { font-size: .88rem; padding: 7px 12px; }
+  }
+</style>
+</head>
+<body>
+
+<!--
+  Перед запуском рекламы заменить: ссылки Telegram/WhatsApp и телефон, сроки, цену для сети, стоимость домена и хостинга.
+-->
+<nav class="nav" aria-label="Основное меню">
+  <a class="nav-brand" href="#top">Сайты для бизнеса</a>
+  <div class="nav-links">
+    <a class="nav-link" href="#prices">Цены</a>
+    <a class="btn btn-tg" href="https://t.me/username" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.9 4.3 18.7 19.4c-.2 1-.9 1.3-1.7.8l-4.8-3.6-2.3 2.2c-.3.3-.5.5-1 .5l.3-4.9 8.9-8c.4-.3-.1-.5-.6-.2l-11 6.9L1.8 11.6c-1-.3-1-1 .2-1.5L20.6 3c.9-.3 1.6.2 1.3 1.3Z"/></svg>
+      <span>Telegram</span>
+    </a>
+  </div>
+</nav>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap">
+      <h1>Создание сайтов для вашего бизнеса</h1>
+      <p>Клиент видит ваши цены и записывается сам, заявки приходят вам в WhatsApp или Telegram. Под ключ от 15 000 ₽, первая версия - через 5 дней.</p>
+      <nav class="chips" aria-label="Примеры по нишам">
+        <a class="chip" href="#n-wash">Автомойки</a>
+        <a class="chip" href="#n-service">Автосервисы</a>
+        <a class="chip" href="#n-flowers">Цветочные магазины</a>
+        <a class="chip" href="#n-nails">Маникюрные салоны</a>
+        <a class="chip" href="#n-massage">Массажные салоны</a>
+        <a class="chip" href="#n-beauty">Салоны красоты</a>
+      </nav>
+      <div class="hero-actions">
+        <a class="btn btn-tg" href="https://t.me/username" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.9 4.3 18.7 19.4c-.2 1-.9 1.3-1.7.8l-4.8-3.6-2.3 2.2c-.3.3-.5.5-1 .5l.3-4.9 8.9-8c.4-.3-.1-.5-.6-.2l-11 6.9L1.8 11.6c-1-.3-1-1 .2-1.5L20.6 3c.9-.3 1.6.2 1.3 1.3Z"/></svg>
+          Обсудить сайт в Telegram
+        </a>
+        <a class="btn btn-wa" href="https://wa.me/79000000000" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.4 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.4-.7-2.9-1.1-4.7-4.1-4.8-4.3-.1-.2-1.2-1.6-1.2-3s.8-2.2 1-2.5c.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .6l-.4.6-.4.5c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.4 1.5.3.2.5.1.6-.1l.9-1c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.5.3.1.2.1.7-.1 1.3Z"/></svg>
+          Написать в WhatsApp
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <div class="journey" id="journey">
+    <div class="pin">
+      <div class="phone-fit">
+        <div class="phone">
+          <span class="phone-key mute"></span><span class="phone-key vol-up"></span><span class="phone-key vol-down"></span><span class="phone-key power"></span>
+          <div class="phone-bezel"><div class="screen" id="screen" role="img" aria-label="Пример: автомойка «Капля»"></div></div>
+          <span class="phone-island"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="lineup" aria-hidden="true">
+      <div class="phone-fit far" data-phone="massage"></div>
+      <div class="phone-fit near" data-phone="service"></div>
+      <div class="slot"></div>
+      <div class="phone-fit near" data-phone="flowers"></div>
+      <div class="phone-fit far" data-phone="nails"></div>
+    </div>
+
+    <div class="wrap chapters" id="examples">
+      <section class="chapter" id="n-wash" data-niche="wash">
+        <div class="card card-lead">
+          <h2>Автомойка: клиент сам записывается на бокс.</h2>
+          <p>Он видит цены на мойку и химчистку, выбирает время и приезжает без звонка и без очереди.</p>
+        </div>
+        <div class="chapter-phone"></div>
+        <div class="card card-points">
+          <div><h3>Цены по видам мойки</h3><p>Экспресс, комплекс, химчистка, полировка - с ценой у каждой услуги.</p></div>
+          <div><h3>Запись на время</h3><p>Клиент выбирает свободный бокс сам, администратору не нужно отвечать на звонки.</p></div>
+          <div><h3>Маршрут в одно касание</h3><p>Кнопка открывает навигатор сразу с вашим адресом.</p></div>
+        </div>
+      </section>
+
+      <section class="chapter" id="n-service" data-niche="service">
+        <div class="card card-lead">
+          <h2>Автосервис: цены на ремонт видны до звонка.</h2>
+          <p>Клиент находит свою работу в прайсе, выбирает время и приезжает, уже понимая, сколько заплатит.</p>
+        </div>
+        <div class="chapter-phone"></div>
+        <div class="card card-points">
+          <div><h3>Прайс по видам работ</h3><p>Масло, ходовая, тормоза, шиномонтаж, диагностика - с ценами «от».</p></div>
+          <div><h3>Заявка вам в телефон</h3><p>Клиент оставляет заявку - она сразу приходит вам в WhatsApp или Telegram.</p></div>
+          <div><h3>Фото бокса и работ</h3><p>Видно, что сервис настоящий, и понятно, куда ехать.</p></div>
+        </div>
+      </section>
+
+      <section class="chapter" id="n-flowers" data-niche="flowers">
+        <div class="card card-lead">
+          <h2>Цветочный магазин: букет заказывают за пару минут.</h2>
+          <p>Витрина с фото и ценами, условия доставки понятны сразу. Заказ уходит вам в мессенджер.</p>
+        </div>
+        <div class="chapter-phone"></div>
+        <div class="card card-points">
+          <div><h3>Витрина букетов</h3><p>Фото, состав и цена каждого букета.</p></div>
+          <div><h3>Доставка и предзаказ</h3><p>Стоимость и сроки доставки, предзаказ к 8 Марта и 14 февраля.</p></div>
+          <div><h3>Заказ в WhatsApp или Telegram</h3><p>Клиент пишет вам, уже выбрав букет и время доставки.</p></div>
+        </div>
+      </section>
+
+      <section class="chapter" id="n-nails" data-niche="nails">
+        <div class="card card-lead">
+          <h2>Маникюрный салон: клиентка сама выбирает мастера и время.</h2>
+          <p>Работы мастеров, цены и свободные окна на одной странице - без долгой переписки.</p>
+        </div>
+        <div class="chapter-phone"></div>
+        <div class="card card-points">
+          <div><h3>Мастера и их работы</h3><p>У каждого мастера свои фото, по ним и выбирают.</p></div>
+          <div><h3>Цены на все услуги</h3><p>Маникюр, педикюр, наращивание, снятие - без «цену уточняйте в сообщениях».</p></div>
+          <div><h3>Онлайн-запись</h3><p>Подключу вашу программу записи - YCLIENTS или DIKIDI. Её нет - заявки придут вам в мессенджер.</p></div>
+        </div>
+      </section>
+
+      <section class="chapter" id="n-massage" data-niche="massage">
+        <div class="card card-lead">
+          <h2>Массажный салон: на сеанс записываются без звонка.</h2>
+          <p>Клиент читает, какой массаж ему подойдёт, видит длительность и цену и выбирает время.</p>
+        </div>
+        <div class="chapter-phone"></div>
+        <div class="card card-points">
+          <div><h3>Виды массажа и длительность</h3><p>Чем отличаются и сколько длится каждый сеанс.</p></div>
+          <div><h3>Абонементы</h3><p>Цена за курс рядом с ценой разового сеанса.</p></div>
+          <div><h3>Мастера и адреса</h3><p>Образование и опыт каждого мастера. Салонов несколько - клиент выбирает адрес, заявка уходит администратору этой точки.</p></div>
+        </div>
+      </section>
+
+      <section class="chapter" id="n-beauty" data-niche="beauty">
+        <div class="card card-lead">
+          <h2>Салон красоты: все услуги, цены и запись на одной странице.</h2>
+          <p>Стрижки, окрашивание, брови и макияж разложены по разделам, записаться можно к своему мастеру.</p>
+        </div>
+        <div class="chapter-phone"></div>
+        <div class="card card-points">
+          <div><h3>Услуги по разделам</h3><p>Волосы, брови, макияж - вместо одного длинного списка.</p></div>
+          <div><h3>Запись к своему мастеру</h3><p>Клиент выбирает мастера, услугу и время за одну минуту. Работает с YCLIENTS.</p></div>
+          <div><h3>Отзывы с карт</h3><p>Ваши настоящие отзывы с Яндекс Карт и 2ГИС.</p></div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <section class="section" id="what">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Что будет на вашем сайте</h2>
+        <p>Только то, что помогает клиенту выбрать вас и прийти. Без разделов, которые никто не открывает.</p>
+      </div>
+      <div class="features">
+        <div class="feature">
+          <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10"/></svg></div>
+          <h3>Цены на виду</h3><p>Клиент сразу видит, сколько стоит услуга, и не пишет вам «сколько стоит?».</p>
+        </div>
+        <div class="feature">
+          <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4M9 15l2 2 4-4"/></svg></div>
+          <h3>Запись или заявка</h3><p>Уже записываете через YCLIENTS или DIKIDI (программы онлайн-записи) - подключу. Нет - и не нужно: заявки придут вам в мессенджер.</p>
+        </div>
+        <div class="feature">
+          <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20.5l1.4-5.1A8 8 0 1 1 21 12Z"/></svg></div>
+          <h3>Заявки туда, где вам удобно</h3><p>Звонок, WhatsApp или Telegram - выберите сами. Можно сразу на телефон администратора.</p>
+        </div>
+        <div class="feature">
+          <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="9" r="2.5"/><path d="M15.5 14.2A5 5 0 0 1 21 19"/></svg></div>
+          <h3>Мастера и адреса</h3><p>У каждого мастера свои работы и запись. Если салонов несколько - все адреса и выбор точки.</p>
+        </div>
+        <div class="feature">
+          <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.5"/></svg></div>
+          <h3>Карта и отзывы</h3><p>Адрес на Яндекс Картах и в 2ГИС, часы работы и ваши настоящие отзывы оттуда.</p>
+        </div>
+        <div class="feature">
+          <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></div>
+          <h3>Видно, что сайт работает</h3><p>Ставлю счётчик Яндекс Метрики. Раз в месяц присылаю: сколько людей зашло и сколько заявок пришло.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="section" id="how">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Как идёт работа</h2>
+        <p>От вас - короткий созвон, прайс и фото. Остальное делаю я. От созвона до запуска - 7-10 дней.</p>
+      </div>
+      <ol class="steps">
+        <li class="step"><h3>Созвон на 15 минут</h3><p>Узнаю ваши услуги, цены и откуда сейчас приходят клиенты. Сразу называю точную цену.</p></li>
+        <li class="step"><h3>Материалы</h3><p>Вы присылаете прайс, 10-20 фото с телефона и адрес. Хороших фото нет - подскажу, как снять за полчаса. Тексты пишу сам.</p></li>
+        <li class="step"><h3>Первая версия</h3><p>Через 5 рабочих дней присылаю ссылку - смотрите сайт на своём телефоне, как его увидят клиенты.</p></li>
+        <li class="step"><h3>Правки</h3><p>Два круга правок входят в стоимость: тексты, фото, порядок блоков.</p></li>
+        <li class="step"><h3>Запуск</h3><p>Подключаю домен, запись и карты. Ставлю ссылку на сайт в карточку на картах и в профиль Instagram.</p></li>
+        <li class="step"><h3>Через месяц</h3><p>Смотрим статистику вместе. Если заявок мало - бесплатно переделываю то, что не работает.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="section" id="about">
+    <div class="wrap">
+      <div class="about">
+        <div class="avatar" aria-hidden="true">АП</div>
+        <div class="about-text">
+          <h2>Антон Пономарев</h2>
+          <p>Делаю сайты для местного бизнеса: автомойки, автосервисы, салоны, цветочные магазины. Веду каждый проект сам, без менеджеров.</p>
+        </div>
+        <ul class="facts">
+          <li>Работаю по договору.</li>
+          <li>Домен и все доступы оформляю на вас.</li>
+          <li>Работаю удалённо по всей России, отвечаю в течение дня.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="prices">
+    <div class="wrap price-wrap">
+      <div class="card price-intro">
+        <div>
+          <h2>Цены</h2>
+          <p>Цена фиксированная: называю на созвоне до начала работы и больше не меняю.</p>
+          <ul class="terms">
+            <li>Первая версия - через 5 рабочих дней</li>
+            <li>Оплата частями: 50% до начала, 50% после запуска</li>
+            <li>Первый год домена и хостинга - уже в цене</li>
+          </ul>
+        </div>
+        <a class="btn btn-tg" href="https://t.me/username" target="_blank" rel="noopener">Обсудить сайт в Telegram</a>
+      </div>
+      <div class="card">
+        <div class="price">
+          <div class="price-line"><h3>Сайт-визитка</h3><b>15 000 ₽</b></div>
+          <p>Одна страница: услуги и цены, фото, адрес и карта, кнопки звонка, WhatsApp и Telegram. Заявки - вам в мессенджер.</p>
+        </div>
+        <div class="price">
+          <div class="price-line"><h3>Сайт с онлайн-записью</h3><b>25 000 ₽</b></div>
+          <p>Всё из визитки, плюс запись к мастерам (до 5) через YCLIENTS, DIKIDI или заявки в мессенджер, отзывы с карт.</p>
+        </div>
+        <div class="price">
+          <div class="price-line"><h3>Сеть салонов или больше 5 мастеров</h3><b>от 35 000 ₽</b></div>
+          <p>35 000 ₽ за два адреса и 7 000 ₽ за каждый следующий. Выбор салона и мастера, заявки администратору каждой точки.</p>
+        </div>
+        <div class="price">
+          <div class="price-line"><h3>Поддержка <span class="price-sub">по желанию</span></h3><b>2 000 ₽ в месяц</b></div>
+          <p>Меняю цены и фото в течение дня. Без поддержки сайт работает, цены вы меняете сами.</p>
+        </div>
+        <p class="price-foot">Со второго года - только домен и хостинг, около 3 000 ₽ в год. Например, визитка: 15 000 ₽ в первый год и около 3 000 ₽ в каждый следующий.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="faq">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Частые вопросы</h2>
+      </div>
+      <div class="faq">
+        <details>
+          <summary>Зачем сайт, если есть Instagram и карточка на картах?</summary>
+          <p>Сайт не заменяет их, а работает вместе с ними. Ссылку ставите в профиль Instagram и в карточку на картах - клиент сразу видит цены и записывается, без переписки. Ещё подключаю сайт к Яндекс Вебмастеру, чтобы его находили в поиске по вашему району.</p>
+        </details>
+        <details>
+          <summary>Мне нужна онлайн-запись?</summary>
+          <p>Нет, если вы записываете по телефону. Тогда кнопка «Записаться» отправляет заявку вам в WhatsApp или Telegram. Если уже работаете в YCLIENTS или DIKIDI - подключу их, переносить ничего не придётся.</p>
+        </details>
+        <details>
+          <summary>Кто пишет тексты и делает фото?</summary>
+          <p>Тексты пишу я по итогам созвона. Фото нужны ваши: подойдут снимки с телефона при дневном свете. Если хороших фото нет - подскажу, что и как снять.</p>
+        </details>
+        <details>
+          <summary>Смогу сам поменять цены?</summary>
+          <p>Да, покажу, где это делается. Или пришлите новый прайс мне - обновлю в рамках поддержки.</p>
+        </details>
+        <details>
+          <summary>Чьим будет сайт и домен?</summary>
+          <p>Вашими. Домен регистрируется на вас, все доступы я передаю вам. Сайт останется у вас, даже если мы перестанем работать вместе.</p>
+        </details>
+        <details>
+          <summary>Что будет, если заявок не прибавится?</summary>
+          <p>Через месяц после запуска смотрим статистику вместе. Если заявок мало - бесплатно переделываю то, что не работает: тексты, порядок блоков, кнопки.</p>
+        </details>
+        <details>
+          <summary>Работаете только с автомойками и салонами?</summary>
+          <p>Нет. Подойдёт любой местный бизнес с услугами и записью: барбершоп, студия йоги, химчистка, шиномонтаж, ветклиника.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="section cta" id="contact">
+    <div class="wrap">
+      <div class="cta-card">
+        <h2>Расскажите про свой бизнес</h2>
+        <p>Напишите, чем вы занимаетесь, в каком городе и есть ли у вас сейчас сайт. Отвечу в течение дня и назову точную цену.</p>
+        <div class="cta-actions">
+          <a class="btn btn-tg" href="https://t.me/username" target="_blank" rel="noopener">Написать в Telegram</a>
+          <a class="btn btn-plain" href="https://wa.me/79000000000" target="_blank" rel="noopener">Написать в WhatsApp</a>
+          <a class="btn btn-plain" href="tel:+79000000000">Позвонить: +7 900 000-00-00</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <span>© 2026 Антон Пономарев</span>
+    <span>Сайты для автомоек, автосервисов, цветочных магазинов и салонов</span>
+  </div>
+</footer>
+
+<script>
+  const niches = {
+    wash: {
+      title: "Сайт для автомойки, где клиент видит цены и сам записывается на бокс",
+      caption: "Пример: автомойка «Капля»",
+      name: "КАПЛЯ", tag: "Автомойка 24 часа. Ленина, 12", btn: "Записаться на бокс",
+      rows: [["Экспресс-мойка", "600 ₽"], ["Комплекс", "1 500 ₽"], ["Химчистка салона", "от 6 000 ₽"], ["Полировка кузова", "от 8 000 ₽"]],
+      vars: {
+        "--m-bg": "#0E2338", "--m-fg": "#E6F4FA", "--m-panel": "#123B5C", "--m-panel-fg": "#FFFFFF",
+        "--m-art": "radial-gradient(circle at 85% 20%, rgba(62,198,224,.55) 0 14%, transparent 15%), radial-gradient(circle at 70% 48%, rgba(62,198,224,.35) 0 7%, transparent 8%), radial-gradient(circle at 92% 58%, rgba(62,198,224,.3) 0 5%, transparent 6%)",
+        "--m-accent": "#3EC6E0", "--m-accent-fg": "#0E2338", "--m-line": "rgba(230,244,250,.18)",
+        "--m-display": "400 30px 'Russo One', sans-serif", "--m-text": "'Golos Text', sans-serif",
+        "--m-radius": "10px", "--m-btn-radius": "6px"
+      }
+    },
+    service: {
+      title: "Сайт для автосервиса, где клиент видит цены на ремонт и сам выбирает время",
+      caption: "Пример: автосервис «Гараж 18»",
+      name: "ГАРАЖ 18", tag: "Ремонт и ТО любых марок. Заводская, 18", btn: "Записаться на ремонт",
+      rows: [["Замена масла", "от 800 ₽"], ["Диагностика ходовой", "1 200 ₽"], ["Шиномонтаж R16", "2 400 ₽"], ["Компьютерная диагностика", "1 500 ₽"]],
+      vars: {
+        "--m-bg": "#1F2124", "--m-fg": "#ECEDEF", "--m-panel": "#2C2F33", "--m-panel-fg": "#FFFFFF",
+        "--m-art": "linear-gradient(transparent, transparent)",
+        "--m-accent": "#FF7A1A", "--m-accent-fg": "#1F2124", "--m-line": "rgba(236,237,239,.16)",
+        "--m-display": "400 30px 'Russo One', sans-serif", "--m-text": "'Golos Text', sans-serif",
+        "--m-radius": "8px", "--m-btn-radius": "4px"
+      }
+    },
+    flowers: {
+      title: "Сайт для цветочного магазина, где букет выбирают и заказывают за пару минут",
+      caption: "Пример: цветочная мастерская «Пион и мята»",
+      name: "Пион и мята", tag: "Букеты с доставкой по городу за 2 часа", btn: "Заказать букет",
+      rows: [["15 роз в крафте", "3 900 ₽"], ["Монобукет пионов", "5 200 ₽"], ["Корзина с сезонными", "от 6 500 ₽"], ["Доставка", "от 350 ₽"]],
+      vars: {
+        "--m-bg": "#FBF0F2", "--m-fg": "#2F4A3A", "--m-panel": "#F4C9D2", "--m-panel-fg": "#2F4A3A",
+        "--m-art": "radial-gradient(circle at 80% 26%, #E58FA2 0 13%, transparent 14%), radial-gradient(circle at 63% 18%, #EFA9B8 0 9%, transparent 10%), radial-gradient(ellipse 9% 16% at 93% 34%, #7FA88A 0 60%, transparent 62%)",
+        "--m-accent": "#2F5D46", "--m-accent-fg": "#FBF0F2", "--m-line": "rgba(47,74,58,.18)",
+        "--m-display": "400 27px 'Yeseva One', serif", "--m-text": "'Golos Text', sans-serif",
+        "--m-radius": "22px", "--m-btn-radius": "999px"
+      }
+    },
+    nails: {
+      title: "Сайт для маникюрного салона, где клиентка сама выбирает мастера и время",
+      caption: "Пример: студия маникюра «Лак»",
+      name: "лак.", tag: "Студия маникюра у метро Садовая", btn: "Выбрать мастера",
+      rows: [["Маникюр с покрытием", "2 200 ₽"], ["Наращивание", "3 500 ₽"], ["Педикюр с покрытием", "2 800 ₽"], ["Снятие и уход", "900 ₽"]],
+      vars: {
+        "--m-bg": "#F1ECFB", "--m-fg": "#33255E", "--m-panel": "#5B3FA0", "--m-panel-fg": "#FFFFFF",
+        "--m-art": "radial-gradient(ellipse 9% 17% at 70% 30%, #F49BC1 0 60%, transparent 62%), radial-gradient(ellipse 9% 17% at 81% 24%, #C7B3F5 0 60%, transparent 62%), radial-gradient(ellipse 9% 17% at 92% 32%, #FFD0E2 0 60%, transparent 62%)",
+        "--m-accent": "#F49BC1", "--m-accent-fg": "#33255E", "--m-line": "rgba(51,37,94,.15)",
+        "--m-display": "700 34px 'Comfortaa', sans-serif", "--m-text": "'Comfortaa', sans-serif",
+        "--m-radius": "18px", "--m-btn-radius": "12px"
+      }
+    },
+    massage: {
+      title: "Сайт для массажного салона, где на сеанс записываются без звонка",
+      caption: "Пример: массажный кабинет «Тёплые руки»",
+      name: "Тёплые руки", tag: "Классический и спортивный массаж", btn: "Записаться на сеанс",
+      rows: [["Классический, 60 мин", "3 000 ₽"], ["Спина и шея, 30 мин", "1 700 ₽"], ["Спортивный, 90 мин", "4 200 ₽"], ["Абонемент на 10 сеансов", "26 000 ₽"]],
+      vars: {
+        "--m-bg": "#EFE5D9", "--m-fg": "#4A3424", "--m-panel": "#8A6A4F", "--m-panel-fg": "#FFF8EF",
+        "--m-art": "radial-gradient(circle at 88% 22%, rgba(255,236,210,.45) 0 18%, transparent 19%), radial-gradient(circle at 88% 22%, rgba(255,236,210,.2) 0 30%, transparent 31%)",
+        "--m-accent": "#4A3424", "--m-accent-fg": "#FFF8EF", "--m-line": "rgba(74,52,36,.18)",
+        "--m-display": "400 30px 'Forum', serif", "--m-text": "'Golos Text', sans-serif",
+        "--m-radius": "4px", "--m-btn-radius": "2px"
+      }
+    },
+    beauty: {
+      title: "Сайт для салона красоты, где все услуги, цены и запись на одной странице",
+      caption: "Пример: салон красоты «Зеркало»",
+      name: "Зеркало", tag: "Стрижки, окрашивание, брови, макияж", btn: "Записаться онлайн",
+      rows: [["Женская стрижка", "от 1 800 ₽"], ["Окрашивание", "от 4 500 ₽"], ["Брови: форма и цвет", "1 400 ₽"], ["Вечерний макияж", "3 000 ₽"]],
+      vars: {
+        "--m-bg": "#1C1B1F", "--m-fg": "#EDE6D6", "--m-panel": "#2B2930", "--m-panel-fg": "#F5EEDC",
+        "--m-art": "radial-gradient(ellipse 15% 24% at 86% 26%, transparent 0 76%, #D8B86A 79% 87%, transparent 90%)",
+        "--m-accent": "#D8B86A", "--m-accent-fg": "#1C1B1F", "--m-line": "rgba(237,230,214,.16)",
+        "--m-display": "400 29px 'Prata', serif", "--m-text": "'Golos Text', sans-serif",
+        "--m-radius": "0px", "--m-btn-radius": "0px"
+      }
+    }
+  };
+
+  // Фото: Unsplash (бесплатная лицензия). Первое - главное, остальные - «Наши работы».
+  const photos = {
+    wash: ["1633014041037-f5446fb4ce99", "1608506375591-b90e1f955e4b", "1607860108855-64acf2078ed9", "1761312834165-c27d037b3a6b"],
+    service: ["1767681092416-bccf9410bda4", "1775590766345-c117265f0c1b", "1771340012378-3c86cb649193", "1771340742493-52fbd5476ccb"],
+    flowers: ["1523693916903-027d144a2b7d", "1572454591674-2739f30d8c40", "1582794543139-8ac9cb0f7b11", "1561181286-d3fee7d55364"],
+    nails: ["1632345031435-8727f6897d53", "1604654894610-df63bc536371", "1610992015762-45dca7fa3a85", "1607779097040-26e80aa78e66"],
+    massage: ["1745327883508-b6cd32e5dde5", "1741522509438-a120c0bb5e88", "1515377905703-c4788e51af15", "1775133262667-316bd4d9e5b5"],
+    beauty: ["1781450090585-1a511b7066d9", "1580618672591-eb180b1a973f", "1634449571010-02389ed0f9b0", "1595475884562-073c30d45670"]
+  };
+  const img = (id, w) => "https://images.unsplash.com/photo-" + id + "?auto=format&fit=crop&w=" + w + "&h=" + Math.round(w * (w > 300 ? 0.75 : 1)) + "&q=70";
+  const domains = {
+    wash: "kaplya-moyka.ru", service: "garazh18.ru", flowers: "pion-i-myata.ru",
+    nails: "lak-studio.ru", massage: "teplye-ruki.ru", beauty: "zerkalo-salon.ru"
+  };
+  const STATUS =
+    '<div class="mock-status"><span>9:41</span><span class="mock-status-icons">' +
+    '<svg width="17" height="11" viewBox="0 0 17 11"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="4.5" y="5" width="3" height="6" rx="1"/><rect x="9" y="2.5" width="3" height="8.5" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/></svg>' +
+    '<svg width="15" height="11" viewBox="0 0 15 11"><path d="M7.5 2.2c2.1 0 4 .8 5.5 2.1l1.1-1.2A9.6 9.6 0 0 0 7.5.5 9.6 9.6 0 0 0 .9 3.1L2 4.3a8 8 0 0 1 5.5-2.1Zm0 3.3c1.2 0 2.3.4 3.2 1.2l1.1-1.2a6.4 6.4 0 0 0-8.6 0l1.1 1.2c.9-.8 2-1.2 3.2-1.2Zm0 3.2c-.4 0-.8.2-1.1.4l1.1 1.4 1.1-1.4c-.3-.2-.7-.4-1.1-.4Z"/></svg>' +
+    '<svg width="25" height="12" viewBox="0 0 25 12"><rect x=".5" y=".5" width="21" height="11" rx="3.5" fill="none" stroke="currentColor" opacity=".45"/><rect x="2" y="2" width="16" height="8" rx="2"/><path d="M23 4v4c.8-.3 1.3-1.1 1.3-2S23.8 4.3 23 4Z" opacity=".5"/></svg>' +
+    '</span></div>';
+  const LOCK = '<svg viewBox="0 0 10 12"><path d="M2 5V3.5a3 3 0 0 1 6 0V5h.5c.6 0 1 .4 1 1v5c0 .6-.4 1-1 1h-7c-.6 0-1-.4-1-1V6c0-.6.4-1 1-1H2Zm1.3 0h3.4V3.5a1.7 1.7 0 0 0-3.4 0V5Z"/></svg>';
+
+  function esc(s) { return s.replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); }
+  function build(n, key) {
+    const p = photos[key];
+    const el = document.createElement("div");
+    el.className = "mock";
+    for (const [k, v] of Object.entries(n.vars)) el.style.setProperty(k, v);
+    el.innerHTML =
+      STATUS +
+      '<div class="mock-page">' +
+      '<div class="mock-bar"><span>' + esc(n.name) + '</span><i></i></div>' +
+      '<div class="mock-hero" style="background-image:url(\'' + img(p[0], 560) + '\')"><div class="mock-name">' + esc(n.name) + '</div>' +
+      '<div class="mock-tag">' + esc(n.tag) + '</div>' +
+      '<div class="mock-btn">' + esc(n.btn) + '</div></div>' +
+      '<div class="mock-list">' + n.rows.map(r => '<div class="mock-row"><span>' + esc(r[0]) + '</span><b>' + esc(r[1]) + '</b></div>').join("") + '</div>' +
+      '<div class="mock-gallery-title">Наши работы</div>' +
+      '<div class="mock-gallery">' + p.slice(1).map(id => '<img src="' + img(id, 200) + '" alt="" loading="eager">').join("") + '</div>' +
+      '<div class="mock-foot"><span>WhatsApp</span><span>Telegram</span><span>Маршрут</span></div>' +
+      '</div>' +
+      '<div class="mock-addr"><div class="mock-url">' + LOCK + esc(domains[key]) + '</div><span class="mock-home"></span></div>';
+    return el;
+  }
+
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const mobile = window.matchMedia("(max-width: 900px)");
+  const root = document.documentElement;
+  const screen = document.getElementById("screen");
+  const chapters = [...document.querySelectorAll(".chapter")];
+  const order = chapters.map(c => c.dataset.niche);
+
+  // Заранее подгружаем фото, чтобы экран менялся без пустых мест
+  window.addEventListener("load", () => {
+    Object.values(photos).forEach(list => list.forEach((id, i) => { new Image().src = img(id, i === 0 ? 560 : 200); }));
+  });
+
+  // Готовый телефон с сайтом ниши внутри (для ряда в первом экране и для мобильной версии)
+  function phone(key) {
+    const el = document.createElement("div");
+    el.className = "phone";
+    el.innerHTML =
+      '<span class="phone-key mute"></span><span class="phone-key vol-up"></span><span class="phone-key vol-down"></span><span class="phone-key power"></span>' +
+      '<div class="phone-bezel"><div class="screen"></div></div><span class="phone-island"></span>';
+    el.querySelector(".screen").appendChild(build(niches[key], key));
+    return el;
+  }
+  document.querySelectorAll("[data-phone]").forEach(el => el.appendChild(phone(el.dataset.phone)));
+
+  // Размер телефона под окно: закреплённый телефон должен целиком помещаться под меню
+  function fit() {
+    const byWidth = (window.innerWidth - 48) / 300;
+    const journeyTop = document.getElementById("journey").offsetTop;
+    // Телефон целиком помещается и под меню при прокрутке, и на первом экране под заголовком
+    const byHeight = Math.min(window.innerHeight - 100, window.innerHeight - journeyTop - 40) / 614;
+    const s = mobile.matches ? Math.min(1, byWidth) : Math.max(.6, Math.min(1, byHeight, byWidth));
+    root.style.setProperty("--s", s.toFixed(3));
+  }
+
+  // Экран закреплённого телефона
+  let current = null;
+  function show(key, dir) {
+    if (key === current) return;
+    const first = current === null;
+    current = key;
+    const n = niches[key];
+    screen.setAttribute("aria-label", n.caption);
+    const mocks = [...screen.querySelectorAll(".mock")];
+    mocks.slice(0, -1).forEach(m => m.remove());
+    const old = mocks[mocks.length - 1];
+    const next = build(n, key);
+    if (first || reduce || !old) {
+      if (old) old.remove();
+      screen.appendChild(next);
+      return;
+    }
+    next.classList.add(dir < 0 ? "from-above" : "from-below");
+    screen.appendChild(next);
+    requestAnimationFrame(() => requestAnimationFrame(() => next.classList.remove("from-above", "from-below")));
+    const drop = () => { if (old.parentNode && screen.lastElementChild !== old) old.remove(); };
+    next.addEventListener("transitionend", drop, { once: true });
+    setTimeout(drop, 2500);
+  }
+
+  // Какая карточка сейчас напротив телефона
+  let ticking = false;
+  function sync() {
+    ticking = false;
+    root.style.setProperty("--scroll", Math.min(window.scrollY, 1400).toFixed(0));
+    if (mobile.matches) { show(order[0], 1); return; }
+    const mid = window.innerHeight / 2 + 30;
+    let best = 0, dist = Infinity;
+    chapters.forEach((c, i) => {
+      const r = c.getBoundingClientRect();
+      const d = Math.abs((r.top + r.bottom) / 2 - mid);
+      if (d < dist) { dist = d; best = i; }
+    });
+    show(order[best], best >= order.indexOf(current) ? 1 : -1);
+  }
+  function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(sync); } }
+
+  // На узком экране телефон не закрепляется - у каждой ниши свой телефон в потоке
+  function mobilePhones() {
+    chapters.forEach((c, i) => {
+      const box = c.querySelector(".chapter-phone");
+      if (mobile.matches && i > 0 && !box.firstChild) {
+        const fitBox = document.createElement("div");
+        fitBox.className = "phone-fit";
+        fitBox.appendChild(phone(c.dataset.niche));
+        box.appendChild(fitBox);
+      }
+    });
+  }
+
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", () => { fit(); onScroll(); });
+  mobile.addEventListener("change", () => { fit(); mobilePhones(); onScroll(); });
+
+  fit();
+  document.fonts && document.fonts.ready.then(() => { fit(); onScroll(); });
+  show(order[0], 1);
+  mobilePhones();
+  sync();
+</script>
+</body>
+</html>
